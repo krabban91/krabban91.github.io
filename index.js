@@ -25,15 +25,15 @@ function calculate() {
         let birthDeltaS = birthDelta / 1000;
         
         let bdecField = document.getElementById("decTo");
-        bdecField.innerHTML = birthDeltaS;
+        bdecField.innerHTML = `${birthDeltaS} s`;
         
         let birthBin = birthDeltaS.toString(2);
         let bbinField = document.getElementById("binTo");
-        bbinField.innerHTML = birthBin;
+        bbinField.innerHTML = `${birthBin} s`;
         
         let birthHex = birthDeltaS.toString(16);
         let bhexField = document.getElementById("hexTo");
-        bhexField.innerHTML = birthHex;
+        bhexField.innerHTML = `${birthHex} s`;
 
         let birthFactors = factors(birthDelta, true);
         let bfactorsField = document. getElementById("factorsTo");
@@ -51,15 +51,15 @@ function calculate() {
         tDateField.innerHTML = formattedDate(partyDate);
         
         let tdecField = document.getElementById("decLeft");
-        tdecField.innerHTML = partyDelta;
+        tdecField.innerHTML = `${partyDelta} s`;
         
         let partyBin = partyDelta.toString(2);
         let tbinField = document.getElementById("binLeft");
-        tbinField.innerHTML = partyBin;
+        tbinField.innerHTML = `${partyBin} s`;
         
         let partyHex = partyDelta.toString(16);
         let thexField = document.getElementById("hexLeft");
-        thexField.innerHTML = partyHex;
+        thexField.innerHTML = `${partyHex} s`;
         let partyFactors = factors(partyDelta * 1000, true);
         let tfactorsField = document.getElementById("factorsLeft");
         tfactorsField.innerHTML = partyFactors;
