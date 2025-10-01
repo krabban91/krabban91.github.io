@@ -65,12 +65,17 @@ function calculate() {
         tfactorsField.innerHTML = partyFactors;
 
         if (partyDelta === 0) {
-            alert("Congratulations old timer! Consider yourself 1 Gigaseconds old!")
+            celebrate();
         }
 
     }
 }
 
+function celebrate() {
+    let partyDiv = document.getElementById("top");
+    partyDiv.hidden = false;
+    //alert("Congratulations old timer! Consider yourself 1 Gigaseconds old!")
+}
 function formattedDate(date) {
     return `${date.toISOString().split("T")[0]} ${date.toLocaleTimeString()}`;
 }

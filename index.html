@@ -4,12 +4,42 @@
         <style type="text/css">
             * {margin: 0; padding: 0; background-color: grey; color: black; font-family: sans-serif;}
             #container {height: 100%; width:100%; font-size: 0;}
-            #left, #right {zoom: 1; margin: 20px 20px; font-size: 20px;}
-
+            #top, #left, #right {zoom: 1; margin: 20px 20px; font-size: 20px;}
+            .celebrate {
+                font-size: 1rem;
+                background: linear-gradient(
+                    to right,
+                    orange,
+                    magenta,
+                    blue,
+                    cyan,
+                    orange
+                );
+                background-clip: text;
+                color: transparent;
+                background-size: 200% auto;
+                animation: gradientAnimation 2s linear infinite;
+            }
+            .h4 {font-size: 2rem;}
+            .h6 {font-size: 1rem;}
+            .p {font-size: 0.8rem;}
+            @keyframes gradientAnimation {
+                0% {
+                    background-position: 200% 50%;
+                }
+                100% {
+                    background-position: 0% 50%;
+                }
+            }
         </style>
     </head>
     <body>
         <div id="container">
+            <div id="top" hidden="true">
+                <h4 class="celebrate" style="font-size: 2rem;">Congratulations old timer!</h4>
+                <h6 class="celebrate" style="font-size: 1rem;">Consider yourself one    Gigaseconds old!</h6>
+                <p class="celebrate" style="font-size: 0.8rem;">(In math that is 2<sup class="celebrate" style="font-size: 0.6rem; animation: gradientAnimation 1s linear infinite;">30</sup> seconds)</p>
+            </div>
             <div id="left">
                 <h2>Birthday</h2>
                 <div id="dateTo"></div>
