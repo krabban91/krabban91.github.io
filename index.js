@@ -16,7 +16,6 @@ function calculate() {
         // Target
         let birthSecond = parseFrom();
 
-        console.log(birthSecond);
         let birthTs = birthSecond.valueOf();
         let bDateField = document. getElementById("dateTo");
         bDateField.innerHTML = formattedDate(birthSecond);
@@ -35,7 +34,7 @@ function calculate() {
         let bhexField = document.getElementById("hexTo");
         bhexField.innerHTML = `${birthHex} s`;
 
-        let birthFactors = factors(birthDelta, true);
+        let birthFactors = factors(decTs, birthTs, true);
         let bfactorsField = document. getElementById("factorsTo");
         bfactorsField.innerHTML = birthFactors;
 
@@ -43,7 +42,6 @@ function calculate() {
         let oneGig = 2 ** 30 * 1000;
         let partyTs = birthTs + oneGig;
         let partyDate = new Date(partyTs);
-        console.log(partyDate)
 
         let partyDelta = (partyTs - decTs) / 1000;
 
@@ -60,7 +58,7 @@ function calculate() {
         let partyHex = partyDelta.toString(16);
         let thexField = document.getElementById("hexLeft");
         thexField.innerHTML = `${partyHex} s`;
-        let partyFactors = factors(partyDelta * 1000, true);
+        let partyFactors = factors(partyTs, decTs, true);
         let tfactorsField = document.getElementById("factorsLeft");
         tfactorsField.innerHTML = partyFactors;
 
@@ -93,34 +91,50 @@ function parseFrom() {
     return fallback;
 }
 
-function factors(ts, simple) {
+function factors(nowTs, targetTs, simple) {
+    let targetDate = new Date(targetTs);
+    let nowDate = new Date(nowTs);
+    let ts = nowTs - targetTs;
     let neg = ts < 0;
     let v = neg ? -ts : ts;
-    let s = Number(1000);
-    let min = Number(1000 * 60);
-    let hour = Number(1000 * 3600);
-    let day = Number(1000 * 3600 * 24);
-    let y = Number(1000 * 3600 * 24 * 365.25);
-    let years = Math.floor(v / y);
-    //console.log(years);
-    let modY = (v + y) % y;
-    let days = Math.floor(modY / day);
-    let modD = (modY + day) % day;
-    let hours = Math.floor(modD / hour);
-    let modH = (modD + hour) % hour;
-    let mins = Math.floor(modH / min);
-    let modM = (modH + min) % min;
-    let secs = Math.floor(modM / s);
-    let sign = neg?-1:1
-    let arr = [years * sign, days * sign, hours * sign, mins * sign, secs * sign]
-    if (!!simple) {
-        return (arr[0] === 0 ? "" : `${arr[0]} Years, `) + 
-            (arr[1] === 0 ? "" : `${arr[1]} Days, `) + 
-            (arr[2] === 0 ? "" : `${arr[2]} Hours, `) + 
-            (arr[3] === 0 ? "" : `${arr[3]} Minutes, `) + 
-            `${arr[4]} Seconds`;
+    let dd = new Date(v);
+    var arr = []
+    if (neg) {
+        let s = Number(1000);
+        let min = Number(1000 * 60);
+        let hour = Number(1000 * 3600);
+        let day = Number(1000 * 3600 * 24);
+        let y = Number(1000 * 3600 * 24 * 365.25);
+        let years = Math.floor(v / y);
+        let modY = (v + y) % y;
+        let days = Math.floor(modY / day);
+        let modD = (modY + day) % day;
+        let hours = Math.floor(modD / hour);
+        let modH = (modD + hour) % hour;
+        let mins = Math.floor(modH / min);
+        let modM = (modH + min) % min;
+        let secs = Math.floor(modM / s);
+        let sign = -1;
+        arr = [years * sign, 0, days * sign, hours * sign, mins * sign, secs * sign];
     } else {
-        return `${arr[0]} Years, ${arr[1]} Days, ${arr[2]} Hours, ${arr[3]} Minutes, ${arr[4]} Seconds`;
+        let years = nowDate.getFullYear() - targetDate.getFullYear();
+        let months = nowDate.getMonth() - targetDate.getMonth();
+        let days = nowDate.getDate() - targetDate.getDate();
+        let hours = nowDate.getHours() - targetDate.getHours();
+        let mins = nowDate.getMinutes() - targetDate.getMinutes();
+        let secs = nowDate.getSeconds() - targetDate.getSeconds();
+        arr = [years, months, days, hours, mins, secs]
+    }
+
+    if (!!simple) {
+        return (arr[0] === 0 ? "" : `${arr[0]} Years, `) +
+            (arr[1] === 0 ? "" : `${arr[1]} Months, `) +
+            (arr[2] === 0 ? "" : `${arr[2]} Days, `) +
+            (arr[3] === 0 ? "" : `${arr[3]} Hours, `) +
+            (arr[4] === 0 ? "" : `${arr[4]} Minutes, `) +
+            `${arr[5]} Seconds`;
+    } else {
+        return `${arr[0]} Years, ${arr[1]} Months, ${arr[2]} Days, ${arr[3]} Hours, ${arr[4]} Minutes, ${arr[5]} Seconds`;
     }
 }
 setInterval(calculate, 50);
